@@ -1,0 +1,12 @@
+title = "Electrolink config"
+
+[server]
+ip = "XXX.XXX.XXX.XXX"
+port = 1883
+keepalive = 60 # maximum period in seconds allowed between communications with the broker.
+
+[thing]
+# This name will be used to declare subscriptions
+# for example if name is "weio" than topics will be :
+# command_weio, reply_weio, error_weio
+targetName = "weioESP" 
