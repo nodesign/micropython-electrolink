@@ -11,7 +11,7 @@ e = electrolink.Electrolink("weioESP")
 e.addSpells(electroGPIO.spells)
 
 # Broker MQTT server, mqtt protocol default port 1883
-e.connectToServer("78.194.220.232")
+e.connectToServer("XXX.XXX.XXX.XXX")
 
 while True:
     # blocking function, waiting for new message
