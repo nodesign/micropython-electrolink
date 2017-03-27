@@ -1,6 +1,6 @@
 import electrolink
 # electroDebug is pc based electrolink, just for testing purposes, doing nothing in electronics
-import electroGPIOdebug as electroGPIO
+import electroFiles 
 # real interface with electronics for ESP8266 processor
 #import electroGPIO
 
@@ -11,7 +11,7 @@ config = loads((open("config.json", "r").read()))
 e = electrolink.Electrolink(config["thing_name"])
 
 # extend Electrolink with additional fnctions
-e.addSpells(electroGPIO.spells)
+e.addSpells(electroFiles.spells)
 
 # Broker MQTT server, mqtt protocol default port 1883
 e.connectToServer(config["broker_server"])

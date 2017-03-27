@@ -30,11 +30,13 @@ class Electrolink:
 
     # Connects to broker using native mqtt interface
     # Aftr connexion subscription to command topic will be done
-    def connectToServer(self, mqttServer):
+    def connectToServer(self, mqttServer, port=0, user=None, password=None, keepalive=0,
+                 ssl=False, ssl_params={}):
         # This is server address
         self.server = mqttServer
 
-        self.client = MQTTClient(self.CLIENT_ID, self.server)
+        self.client = MQTTClient(self.CLIENT_ID, self.server, port, user, password, keepalive,
+                 ssl, ssl_params)
         self.client.set_callback(self.subscriptionCallback)
 
         self.client.connect()
