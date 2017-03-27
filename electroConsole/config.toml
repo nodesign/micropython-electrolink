@@ -8,5 +8,5 @@ keepalive = 60 # maximum period in seconds allowed between communications with t
 [thing]
 # This name will be used to declare subscriptions
 # for example if name is "weio" than topics will be :
-# command_weio, reply_weio, error_weio
+# weio/command, weio/reply, weio/error
 targetName = "weioESP" 
