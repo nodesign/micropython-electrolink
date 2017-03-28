@@ -29,7 +29,7 @@ ampy -p /dev/tty.SLAB_USBtoUART put main.py
 When you restart your ESP board main program will start and if everything goes fine will be connected to the Mqtt broker
 
 ## ElectroConsole
-Before starting interactive console change electroConsole/config.toml file to match ip address of your Mqtt broker
+Before starting interactive console change `electroConsole/config.toml` file to match ip address of your Mqtt broker.
 Then
 
 ```bash
