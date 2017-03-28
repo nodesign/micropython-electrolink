@@ -31,7 +31,8 @@ def deleteFile(arg):
         raise Exception("File don't exist or can't be removed")
 
 spells = {
-      "getFileList": getFileList, 
-      "writeFile": writeFile, 
-      "getFile": getFile,
-      "deleteFile": deleteFile}
+      "getFileList": {"call": getFileList,  "parameters": "path",       "description": "Get file list in directory"},
+      "writeFile":   {"call": writeFile,    "parameters": "path, data", "description": "Write data in file"}, 
+      "getFile":     {"call": getFile,      "parameters": "path",       "description": "Get file data"},
+      "deleteFile":  {"call": deleteFile,   "parameters": "path",       "description": "Delete specified file"}
+      }

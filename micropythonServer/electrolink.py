@@ -12,10 +12,14 @@ class Electrolink:
         # Setting all function names that can be called by electrolink
         # and it's pointers
         # See function addSpells that is used to extend spells with your on functions
+        # Parameters have to be declared in the most clear manner as they serve as a help
+        # Description helps users to understand how to use function
         self.spells = {
-                  "ping":self.ping,
-                  "getInfo": self.getInfo,
-                  "getSpells": self.getSpells}
+                  "ping":      {"call": self.ping,       "parameters": None, "description": "Verify if board responds, will respond 1"},
+                  "getInfo":   {"call": self.getInfo,    "parameters": None, "description": "Get board info"}, 
+                  "getSpells": {"call": self.getSpells,  "parameters": None, "description": "Get available instructions to call"},
+                  "reset":     {"call": self.reset,      "parameters": None, "description": "Hardware reset electronics"}
+                  }
 
         # Name of
         self.CLIENT_ID = objectName
@@ -42,10 +46,6 @@ class Electrolink:
         self.client.connect()
         self.client.subscribe(self.REQUEST_TOPIC)
 
-    # Returns number 1 to show that he is alive
-    def ping(self, arg):
-        return 1
-
     # This is BLOCKING function, it will wait until gets new message to continue execution
     def waitForMessage(self):
         self.client.wait_msg()
@@ -64,7 +64,7 @@ class Electrolink:
         # Try to execute function by calling directly spells dictionary
         try:
             # direct call here
-            response = self.spells[method](params)
+            response = self.spells[method]["call"](params)
 
             # If there is value that was returned from the function then reply and copy requested parameters
             # Copying parameters is important so receiver can match it's call back function
@@ -82,6 +82,8 @@ class Electrolink:
             p = {"rawMessageReceived":[topic,msg], "error":"Method don't exist"}
             out = dumps(p)
             self.client.publish(self.ERROR_TOPIC, out)
+        # All other unpredictible or personalized errors should be risen here
+        # To rise your own exceptions do : rise Exception("My nasty error")
         except Exception as err:
             p = {"rawMessageReceived":[topic,msg], "error":str(err)}
             out = dumps(p)
@@ -93,8 +95,24 @@ class Electrolink:
 
     # Returns list of available functions that can be called
     def getSpells(self, arg):
-        return list(self.spells)
+        # Ignore call from the dictionary when sending
+        # It's not trivial to make copy of dictionary in micropython
+        # This is manual method
+        keySpells = list(self.spells)
+        spl = {}
+        for key in keySpells:
+            line = self.spells[key]
+            spl[key] = {"parameters":line["parameters"], "description":line["description"]}
+        return spl
 
     # Get info for the board
     def getInfo(self,arg):
         return self.info
+
+    # Returns number 1 to show that he is alive
+    def ping(self, arg):
+        return 1
+
+    def reset(self, arg):
+        import machine
+        machine.reset()

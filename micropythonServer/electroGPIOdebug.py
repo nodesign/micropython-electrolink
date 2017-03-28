@@ -33,9 +33,10 @@ def digitalRead(arg):
     return 1
 
 spells = {
-      "pwmStart": pwmStart, 
-      "pwmSet": pwmSet, 
-      "pwmStop": pwmStop,
-      "pinMode": pinMode,
-      "digitalWrite": digitalWrite,
-      "digitalRead": digitalRead}
+      "pwmStart":     {"call": pwmStart,     "parameters": "pinNumber, frequency",  "description": "Start PWM signal on pin with frequency"},
+      "pwmSet":       {"call": pwmSet,       "parameters": "pinNumber, duty",       "description": "Set PWM duty cycle 0-1023"}, 
+      "pwmStop":      {"call": pwmStop,      "parameters": None,                    "description": "Stop PWM signal"},
+      "pinMode":      {"call": pinMode,      "parameters": "pinNumber, mode",       "description": "Set pin to IN/OUT and PULL_UP/DOWN modes"},
+      "digitalWrite": {"call": digitalWrite, "parameters": "pinNumber, value",      "description": "Set voltage level on pin, 1 -> 3.3V, 0 -> 0V"},
+      "digitalRead":  {"call": digitalRead,  "parameters": "pinNumber, callbackId", "description": "Read digital value from pin. Callback Id will be mirrored"}
+      }
