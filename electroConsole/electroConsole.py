@@ -131,7 +131,21 @@ while True:
                     print("Bad command\n")
                 else :
                     out = {"method":method, "params":params}
-                    mqttc.publish(thingName+"/command", json.dumps(out))
+                    nogo = False
+                    # handle special case with files
+                    index = 0
+                    for a in out["params"]:
+                        if ("file:" in a):
+                            try :
+                                f = open(a.split("file:")[1], "r")
+                                fileData = f.read()
+                                out["params"][index] = fileData
+                            except:
+                                print("File not found")
+                                nogo = True
+                        index+=1
+                    if (nogo is False):
+                        mqttc.publish(thingName+"/command", json.dumps(out))
                     #print(out)
             else:
                 if (len(data)>0):
