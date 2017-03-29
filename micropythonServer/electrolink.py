@@ -11,14 +11,14 @@ class Electrolink:
 
         # Setting all function names that can be called by electrolink
         # and it's pointers
-        # See function addSpells that is used to extend spells with your on functions
+        # See function addCallbacks that is used to extend callbacks with your on functions
         # Parameters have to be declared in the most clear manner as they serve as a help
         # Description helps users to understand how to use function
-        self.spells = {
-                  "ping":      {"call": self.ping,       "parameters": None, "description": "Verify if board responds, will respond 1"},
-                  "getInfo":   {"call": self.getInfo,    "parameters": None, "description": "Get board info"}, 
-                  "getSpells": {"call": self.getSpells,  "parameters": None, "description": "Get available instructions to call"},
-                  "reset":     {"call": self.reset,      "parameters": None, "description": "Hardware reset electronics"}
+        self.callbacks = {
+                  "ping":         {"call": self.ping,          "parameters": None, "description": "Verify if board responds, will respond 1"},
+                  "getInfo":      {"call": self.getInfo,       "parameters": None, "description": "Get board info"}, 
+                  "getCallbacks": {"call": self.getCallbacks,  "parameters": None, "description": "Get available instructions to call"},
+                  "reset":        {"call": self.reset,         "parameters": None, "description": "Hardware reset electronics"}
                   }
 
         # Name of
@@ -61,10 +61,10 @@ class Electrolink:
         params = data["params"]
         #print(method, params)
 
-        # Try to execute function by calling directly spells dictionary
+        # Try to execute function by calling directly callbacks dictionary
         try:
             # direct call here
-            response = self.spells[method]["call"](params)
+            response = self.callbacks[method]["call"](params)
 
             # If there is value that was returned from the function then reply and copy requested parameters
             # Copying parameters is important so receiver can match it's call back function
@@ -90,18 +90,18 @@ class Electrolink:
             self.client.publish(self.ERROR_TOPIC, out)
 
     # Extend with new function calls
-    def addSpells(self, newSpells):
-        self.spells.update(newSpells)
+    def addCallbacks(self, newCallbacks):
+        self.callbacks.update(newCallbacks)
 
     # Returns list of available functions that can be called
-    def getSpells(self, arg):
+    def getCallbacks(self, arg):
         # Ignore call from the dictionary when sending
         # It's not trivial to make copy of dictionary in micropython
         # This is manual method
-        keySpells = list(self.spells)
+        keyCallbacks = list(self.callbacks)
         spl = {}
-        for key in keySpells:
-            line = self.spells[key]
+        for key in keyCallbacks:
+            line = self.callbacks[key]
             spl[key] = {"parameters":line["parameters"], "description":line["description"]}
         return spl
 

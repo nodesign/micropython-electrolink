@@ -30,7 +30,7 @@ def deleteFile(arg):
     except :
         raise Exception("File don't exist or can't be removed")
 
-spells = {
+callbacks = {
       "getFileList": {"call": getFileList,  "parameters": "path",       "description": "Get file list in directory"},
       "writeFile":   {"call": writeFile,    "parameters": "path, data", "description": "Write data in file"}, 
       "getFile":     {"call": getFile,      "parameters": "path",       "description": "Get file data"},

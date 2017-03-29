@@ -11,7 +11,7 @@ config = loads((open("config.json", "r").read()))
 e = electrolink.Electrolink(config["thing_name"])
 
 # extend Electrolink with additional fnctions
-e.addSpells(electroGPIO.spells)
+e.addCallbacks(electroGPIO.callbacks)
 
 # Broker MQTT server, mqtt protocol default port 1883
 e.connectToServer(config["broker_server"])

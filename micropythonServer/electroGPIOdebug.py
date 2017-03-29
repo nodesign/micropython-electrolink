@@ -32,7 +32,7 @@ def digitalRead(arg):
     print("digitalRead", pinId, "returns 1")
     return 1
 
-spells = {
+callbacks = {
       "pwmStart":     {"call": pwmStart,     "parameters": "pinNumber, frequency",  "description": "Start PWM signal on pin with frequency"},
       "pwmSet":       {"call": pwmSet,       "parameters": "pinNumber, duty",       "description": "Set PWM duty cycle 0-1023"}, 
       "pwmStop":      {"call": pwmStop,      "parameters": None,                    "description": "Stop PWM signal"},

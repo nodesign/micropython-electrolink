@@ -19,18 +19,18 @@ import rlcompleter
 alive = False
 
 wlcmMessage = True
-welcome = "Welcome to Electrolink! Your board is connected\nType getSpells() to discover board capabilities\nOther instructions has to be sent in the format : digitalWrite(1,1)\nTo end program type exit"
+welcome = "Welcome to Electrolink! Your board is connected\nType getCallbacks() to discover board capabilities\nOther instructions has to be sent in the format : digitalWrite(1,1)\nTo end program type exit"
 
-spells = None
-waitSpells = True
+callbacks = None
+waitCallbacks = True
 
 def on_connect(mqttc, obj, flags, rc):
     t = colored('\nConnected to broker', 'green', attrs=['reverse'])
     print(t)
 
 def on_message(mqttc, obj, msg):
-    global spells
-    global waitSpells
+    global callbacks
+    global waitCallbacks
     global alive
     a = json.loads(str(msg.payload))
     t = None
@@ -41,10 +41,10 @@ def on_message(mqttc, obj, msg):
             alive = True
             t = colored(thingName +" is alive!", 'green',  attrs=['reverse', 'blink'])
         else :
-            if (waitSpells is True):
-                if (a["requested"] == "getSpells"):
-                    spells = list(a["value"])
-                    waitSpells = False
+            if (waitCallbacks is True):
+                if (a["requested"] == "getCallbacks"):
+                    callbacks = list(a["value"])
+                    waitCallbacks = False
             else :
                 t = colored(json.dumps(a["value"], indent=4, sort_keys=True), 'green')
     else :
@@ -160,8 +160,8 @@ class SimpleCompleter(object):
 
 def input_loop():
     global wlcmMessage
-    global waitSpells
-    global spells
+    global waitCallbacks
+    global callbacks
     c = ''
     while True:
         if (alive == False):
@@ -174,15 +174,15 @@ def input_loop():
 
         else :
             if (wlcmMessage == True):
-                out = {"method":"getSpells", "params":[]}
+                out = {"method":"getCallbacks", "params":[]}
                 mqttc.publish(thingName+"/command", json.dumps(out))
-                while(waitSpells is True):
+                while(waitCallbacks is True):
                     time.sleep(0.1)
 
-                spells.append("exit")
-                spells.append("help")
+                callbacks.append("exit")
+                callbacks.append("help")
 
-                readline.set_completer(SimpleCompleter(spells).complete)
+                readline.set_completer(SimpleCompleter(callbacks).complete)
                 print(welcome)
 
                 wlcmMessage = False
