@@ -3,13 +3,14 @@
 This is implementation of [Electrolink protocol](https://github.com/projectiota/electrolink) in Micropython.
 
 `Electrolink` is technology that permits to control and program connected things over the Internet. Every board or microcontroler that can run Micropython can be easily controlled over the network using Electrolink.
+This technology has been imagined and developped firstly for [WeIO](https://github.com/nodesign/weio) project in 2013 by Uros Petrevski & Drasko. Seeing great benefits from having possibility to interact in real-time with things in the network, team decided to extract project from WeIO and create separate one. Team was joined by Paul Rathgeb that was working mainly on RIOT Electrolink implementation.
 
 This protocol implements the most common interfaces to control GPIO, I2C, SPI, etc. over the network but it gives also a great simplicity for writing custom commands. This implementation targets specificaly ESP8266 but will enlarge it's support over time.
 
 `MicropythonServer` is implementation of pure Electrolink.
 
 `ElectroConsole` is interactive tool dedicated to interact with Electrolink directly from console. 
-Modules are extensions of some specific functions that can be used with Eectrolink
+`Modules` are extensions of some specific functions that can be used with Eectrolink
 
 ## Installation
 
