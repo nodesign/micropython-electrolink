@@ -1,0 +1,10 @@
+{
+    "broker_server": "127.0.0.1",
+    "user":"None",
+    "password":"None",
+    "ssl":false,
+    "ssl_params":{},
+    "port": 0, 
+    "keepalive":0,
+    "thing_name": "weioESP"
+}

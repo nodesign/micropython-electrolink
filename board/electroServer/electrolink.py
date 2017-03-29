@@ -15,12 +15,15 @@ class Electrolink:
         # Parameters have to be declared in the most clear manner as they serve as a help
         # Description helps users to understand how to use function
         self.callbacks = {
-                  "ping":         {"call": self.ping,          "parameters": None, "description": "Verify if board responds, will respond 1"},
-                  "getInfo":      {"call": self.getInfo,       "parameters": None, "description": "Get board info"}, 
-                  "getCallbacks": {"call": self.getCallbacks,  "parameters": None, "description": "Get available instructions to call"},
-                  "reset":        {"call": self.reset,         "parameters": None, "description": "Hardware reset electronics"}
+                  "ping":         {"call": self.ping,          "parameters": None,         "description": "Verify if board responds, will respond 1"},
+                  "getInfo":      {"call": self.getInfo,       "parameters": None,         "description": "Get board info"}, 
+                  "getCallbacks": {"call": self.getCallbacks,  "parameters": None,         "description": "Get available instructions to call"},
+                  "reset":        {"call": self.reset,         "parameters": None,         "description": "Hardware reset electronics"},
+                  "setAckReceipt":{"call": self.setAckReceipt, "parameters": "true/false", "description": "Avis de reception"}
                   }
 
+        # Acknowledge receipt - avis de reception
+        self.ackReceipt = False
         # Name of
         self.CLIENT_ID = objectName
         self.info["name"] =  self.CLIENT_ID
@@ -72,6 +75,11 @@ class Electrolink:
                 p = {"requested":method, "params":params, "value":response} #pass back params to client
                 out = dumps(p)
                 self.client.publish(self.ANSWER_TOPIC, out)
+            else :
+                if (self.ackReceipt is True):
+                    p = {"requested":method, "params":params, "value":"OK"} #pass back params to client
+                    out = dumps(p)
+                    self.client.publish(self.ANSWER_TOPIC, out)
 
         # These are common errors
         except IndexError:
@@ -104,6 +112,17 @@ class Electrolink:
             line = self.callbacks[key]
             spl[key] = {"parameters":line["parameters"], "description":line["description"]}
         return spl
+
+    # Acknowledge receipt - avis de reception, each message will respond with OK if no return
+    # message or with it's message
+    def setAckReceipt(self, arg):
+        val = arg[0]
+        if ((val == "true") or (val == "True")): 
+            self.ackReceipt = True
+        elif ((val == "false") or (val == "False")):
+            self.ackReceipt = False
+        else :
+            raise Exception("Bad parameter. Only 'true' or 'false' accepted")
 
     # Get info for the board
     def getInfo(self,arg):
