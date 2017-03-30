@@ -21,7 +21,7 @@ alive = False
 wlcmMessage = True
 welcome = "Welcome to Electrolink! Your board is connected\nType getCallbacks() to discover board capabilities\nOther instructions has to be sent in the format : digitalWrite(1,1)\nTo end program type exit"
 
-callbacks = None
+callbacks = []
 waitCallbacks = True
 
 def on_connect(mqttc, obj, flags, rc):
@@ -43,7 +43,13 @@ def on_message(mqttc, obj, msg):
         else :
             if (waitCallbacks is True):
                 if (a["requested"] == "getCallbacks"):
-                    callbacks = list(a["value"])
+                    fncList = list(a["value"])
+                    for m in fncList:
+                        if (a["value"][m]["parameters"] is None):
+                            callbacks.append(m+"()")
+                        else :
+                            callbacks.append(m+"("+a["value"][m]["parameters"]+")")
+
                     waitCallbacks = False
             else :
                 t = colored(json.dumps(a["value"], indent=4, sort_keys=True), 'green')
@@ -184,7 +190,7 @@ def input_loop():
                     time.sleep(0.1)
 
                 callbacks.append("exit")
-                callbacks.append("help")
+                #callbacks.append("help")
 
                 readline.set_completer(SimpleCompleter(callbacks).complete)
                 print(welcome)

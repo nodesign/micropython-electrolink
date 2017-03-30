@@ -25,6 +25,14 @@ def getFile(arg):
         f.close()
         return data
 
+def deleteFile(arg):
+    name = arg[0]
+    try :
+        os.remove(name)
+        return "OK"
+    except :
+        raise Exception("File don't exist or can't be removed")
+
 def is_binary(filename):
     """Return true if the given filename is binary.
     @raise EnvironmentError: if the file does not exist or cannot be accessed.
@@ -45,14 +53,6 @@ def is_binary(filename):
         fin.close()
 
     return False
-
-def deleteFile(arg):
-    name = arg[0]
-    try :
-        os.remove(name)
-        return "OK"
-    except :
-        raise Exception("File don't exist or can't be removed")
 
 callbacks = {
       "getFileList": {"call": getFileList,  "parameters": "path",       "description": "Get file list in directory"},
