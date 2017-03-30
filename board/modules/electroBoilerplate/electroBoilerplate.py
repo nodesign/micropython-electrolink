@@ -16,8 +16,17 @@ def summing(arg):
         # This message will be sent in error topic
         raise Exception("Parameters must be numbers!")
 
+def setValue(arg):
+    value = arg[0]
+    if (value > 1023):
+        # This message will be sent in error topic
+        raise Exception("Value can't be higher than 1023")
+    else :
+        print(value)
+
 # Declare callbacks here for two functions and describe them
 callbacks = {
       "printValue":  {"call": printValue,  "parameters": "value",          "description": "Print value in micropython console"},
-      "summing":     {"call": summing,     "parameters": "valueA, valueB", "description": "Make sum of valueA + valueB"}
+      "summing":     {"call": summing,     "parameters": "valueA, valueB", "description": "Make sum of valueA + valueB"},
+      "setValue":    {"call": setValue,    "parameters":  "value",         "description": "Set some value, limit is 1023"}
       }
