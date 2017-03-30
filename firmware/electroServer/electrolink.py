@@ -68,7 +68,7 @@ class Electrolink:
         if ("id" in data):
             msgId = data["id"]
 
-        print(method, params)
+        #print(method, params)
 
         # Try to execute function by calling directly callbacks dictionary
         try:
