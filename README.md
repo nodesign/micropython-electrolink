@@ -13,12 +13,14 @@ This protocol using module `electroGpio` implements the most common interfaces t
 
 `Modules` are extensions of some specific functions that can be used with Eectrolink
 
+`MqttBroker` is simple Mqtt server broker easy to use
+
 ## Installation
 
 ## Electrolink server
 Install micropyton on your ESP8266 board. This steps will not be discussed here. However this is a good place to start: https://docs.micropython.org/en/latest/esp8266/esp8266/tutorial/intro.html
 
-You need Mqtt broker launched somewhere so you can connect your computer and your board on to.
+You need Mqtt broker launched somewhere so you can connect your computer and your board on to. You can try mqttBroker from the project or use another one that you are used to.
 
 Before transfering files to the board change `micropythonServer/config.json` to match the ip address of your Mqtt broker. Then copy files to the board
 
