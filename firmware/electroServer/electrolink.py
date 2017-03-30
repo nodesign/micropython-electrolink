@@ -62,7 +62,13 @@ class Electrolink:
         data = loads(msg)
         method = data["method"]
         params = data["params"]
-        #print(method, params)
+
+        # Detect if we are in mode like jsonrpc with id for each message
+        msgId = None
+        if ("id" in data):
+            msgId = data["id"]
+
+        print(method, params)
 
         # Try to execute function by calling directly callbacks dictionary
         try:
@@ -73,11 +79,15 @@ class Electrolink:
             # Copying parameters is important so receiver can match it's call back function
             if not(response is None):
                 p = {"requested":method, "params":params, "value":response} #pass back params to client
+                if not(msgId is None):
+                    p["id"] = msgId
                 out = dumps(p)
                 self.client.publish(self.ANSWER_TOPIC, out)
             else :
                 if (self.ackReceipt is True):
                     p = {"requested":method, "params":params, "value":"OK"} #pass back params to client
+                    if not(msgId is None):
+                        p["id"] = msgId
                     out = dumps(p)
                     self.client.publish(self.ANSWER_TOPIC, out)
 

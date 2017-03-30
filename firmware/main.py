@@ -1,6 +1,6 @@
 import electroServer.electrolink as electrolink
 # electroDebug is pc based electrolink, just for testing purposes, doing nothing in electronics
-import modules.electroFiles.electroFiles as electroFiles
+import modules.electroFiles as electroFiles
 # real interface with electronics for ESP8266 processor
 #import electroGPIO
 
