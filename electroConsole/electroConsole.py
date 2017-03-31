@@ -23,6 +23,7 @@ welcome = "Welcome to Electrolink! Your board is connected\nType getCallbacks() 
 
 callbacks = []
 waitCallbacks = True
+helpDocs = []
 
 def on_connect(mqttc, obj, flags, rc):
     t = colored('\nConnected to broker', 'green', attrs=['reverse'])
@@ -45,10 +46,16 @@ def on_message(mqttc, obj, msg):
                 if (a["requested"] == "getCallbacks"):
                     fncList = list(a["value"])
                     for m in fncList:
+                        fncSuffix = None
                         if (a["value"][m]["parameters"] is None):
-                            callbacks.append(m+"()")
+                            fncSuffix = m+"()"
                         else :
-                            callbacks.append(m+"("+a["value"][m]["parameters"]+")")
+                            fncSuffix = m+"("+a["value"][m]["parameters"]+")"
+
+                        callbacks.append(fncSuffix)
+
+                        doc = {"function":m, "syntax":fncSuffix, "doc":a["value"][m]["description"]}
+                        helpDocs.append(doc)
 
                     waitCallbacks = False
             else :
@@ -117,6 +124,19 @@ def parseInstruction(c):
                 out = {"method":method, "params":params}
                 nogo = False
 
+                if ("help" in method):
+                    #print("HELP", params)
+                    nogo = True
+                    if (len(params)==0):
+                        print(colored("Error! You must enter function name. For example help('ping')", 'red'))
+                    else :
+                        found = False
+                        for fnc in helpDocs:
+                            if (params[0] in fnc["function"]):
+                                print(colored(fnc["doc"], 'yellow'))
+                                found = True
+                        if not(found):
+                            print(colored("Error! Function with that name don't exist", 'red'))
                 try:
                     # handle special case with files
                     index = 0
@@ -190,7 +210,7 @@ def input_loop():
                     time.sleep(0.1)
 
                 callbacks.append("exit")
-                #callbacks.append("help")
+                callbacks.append("help")
 
                 readline.set_completer(SimpleCompleter(callbacks).complete)
                 print(welcome)
