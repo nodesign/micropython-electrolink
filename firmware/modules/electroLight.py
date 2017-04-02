@@ -1,10 +1,11 @@
-from machine import PWM
+from machine import Pin, PWM
 from time import sleep_ms
 #from math import exp
 from machine import Timer
 
 class Lamp:
-    def __init__(self, pin, frequency = 120):
+    def __init__(self, pin_n, frequency = 120):
+        pin = Pin(pin_n, Pin.OUT)
         self.pwm0 = PWM(pin)
         self.upperLimit = 1023
         self.pwm0.freq(frequency)

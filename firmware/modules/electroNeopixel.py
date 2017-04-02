@@ -3,7 +3,7 @@ from neopixel import NeoPixel
 from time import sleep, sleep_ms
 
 
-class NeoLight:
+class Lamp:
 
     def __init__(self, n_pin, n_leds):
         self.LEDS = n_leds
