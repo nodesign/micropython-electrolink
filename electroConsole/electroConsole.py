@@ -9,13 +9,6 @@ import time
 import readline
 import rlcompleter
 
-# import logging
-#
-# LOG_FILENAME = 'completer.log'
-# logging.basicConfig(filename=LOG_FILENAME,
-#                     level=logging.DEBUG,
-#                     )
-
 alive = False
 
 wlcmMessage = True
